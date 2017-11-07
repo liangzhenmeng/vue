@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./../vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h2>{{name}}</h2>
+        <h3>{{word}}</h3>
+    </div>
+    <script>
+        let Hello = {
+            "name":"hello",//挂载元素
+            "word":"world",
+        }
+        var Vm = new Vue({
+            el:"#app",
+            data:Hello,
+        });
+        console.dir(document);
+    </script>
+</body>
+</html>

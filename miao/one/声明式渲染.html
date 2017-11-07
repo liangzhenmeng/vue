@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+
+</head>
+<body>
+    <div id="demo">
+        <span v-on:click="clickhandle">{{message}}</span>
+    </div>
+    <script>
+        let data = {
+            message:"Hello Vue!"
+        }
+        var arr = [1,2,3,4,5];
+        var vm = new Vue({
+            el:"#demo",
+            data:data,
+            methods:{
+                clickhandle(){
+                    alert(data.message);
+                }
+
+            }
+        })
+        var newArr = arr.map(function(item){
+            return item*2+1;
+        });
+        console.log(newArr);
+
+    </script>
+</body>
+</html>

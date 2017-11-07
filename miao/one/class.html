@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .red{
+            background:yellow;
+        }
+    </style>
+    <script src="./../vue.js"></script>
+</head>
+<body>
+    <!--模板-->
+    <div id="app">
+        <span  v-bind:class="{red:addClass}">hello world</span>
+        <br>{{true?"yes":"no"}}
+        <div v-html="html"></div>
+        <ul>
+
+        </ul>
+    </div>
+    <script>
+
+        let data = {
+            addClass:true,
+            html:"<div><h1>hello,miaov</h1></div>"
+        }
+
+        var Vm = new Vue({
+            el:"#app",
+            data:data,
+            render(createElement){
+                return createElement(
+                    "ul",
+                    [
+                        createElement("li",1),
+                        createElement('li',2),
+                        createElement("li",3),
+                    ]
+                )
+            }
+        });
+
+    </script>
+</body>
+</html>

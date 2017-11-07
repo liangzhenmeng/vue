@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .bg{
+            background:yellow;
+        }
+
+    </style>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="example">
+        <p v-bind:class="{ bg:isActive }">Original message: {{ message }}</p>
+        <p>Computed reversed message: {{ getDateOne() }}</p>  
+    </div>
+
+    <script src="./app.js"></script>
+    <script type="text/javascript">
+        var app = new Vue({
+            el:"#example",
+            data:{
+                message:"创建时间",
+                isActive:false,
+            },
+            methods:{
+                getDateOne(){
+                    return new Date()
+                }
+            },
+            computed:{
+                reversed(){
+                    return this.message+"name = "+"xiaoming"
+                },
+                getDate(){
+                    return new Date() 
+                }
+            }
+        });
+       
+    </script>
+</body>
+</html>

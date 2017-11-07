@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .bg{
+            background: yellow;
+        }
+    </style>
+    <script src="./../vue.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <script>
+        let obj = {
+            html:"<div>  大家好   </div>",
+            abc :"1"
+        };
+        console.log("1:");
+        console.log(obj);
+        var Vm = new Vue({
+            el:"#app",
+            data:obj,
+            render(createElement){
+                var obj = createElement(
+                    "ul",
+                    {
+                        class:{
+                            bg:true,
+                        },
+                        style:{
+                            fontSize:"50px",
+                        },
+                        attrs:{
+                            abc:"miaov"
+                        },
+                        domProps:{
+                            innerHTML:"<li>我是renderHTML</li>"
+                        }
+                    },
+                    [
+                        createElement("li","name"),
+                        createElement("li","大凹凸"),
+                    ]
+                );
+                console.log("2:")
+                console.log( obj );
+                return obj;
+            }
+        });
+        console.log("3:");
+        console.log(obj);
+    </script>
+</body>
+</html>

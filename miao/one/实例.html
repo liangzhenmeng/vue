@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div,span{
+            cursor:pointer;
+        }
+    </style>
+    <script src="../vue.js"></script>
+
+</head>
+<body>
+    <div id="demo">
+        <span v-on:click="clickHandle">{{message}}</span>
+        <div id="box">
+            <input type="text" v-model="message">
+            <p>{{message}}</p>
+        </div>
+    </div>
+    <script>
+        let obj = {
+            message:"hello,Vue!",
+        }
+        var vm = new Vue({
+            el:"#demo",
+            data:obj,
+            methods:{
+                clickHandle(){
+                    obj.message = "name";
+                }
+            }
+        });
+        console.log(vm.$data);
+    </script>
+</body>
+</html>
