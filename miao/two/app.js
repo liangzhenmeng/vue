@@ -64,16 +64,26 @@ new Vue({
         },
         editItemed(todo){
             console.log(todo);
-            todo.title = this.editText.title;
+            if(this.editText.title != ""){
+                todo.title = this.editText.title;
+            }else{
+                todo.title = this.beforeTitle;
+            }
+            this.editText = "";
+        },
+        giveUpItemed(item){
+            item.title = this.beforeTitle;
             this.editText = "";
         }
 
 
     },
     directives:{
-        update(el,binding){
-            if(binding){
-                el.foucs();
+        "focus":{
+            update(el,binding){
+                if(binding){
+                    el.focus();
+                }
             }
         }
     }
