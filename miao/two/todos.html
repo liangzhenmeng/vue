@@ -21,7 +21,7 @@
                 v-model="text"
                 v-on:keyup.13="addtodo"
         />
-        <ul class="task-count">
+        <ul class="task-count" v-show="list.length">
             <li>{{noIsChecked}}个任务未完成</li>
             <li class="action">
                 <a href="#" class="active">所有任务</a>
@@ -33,16 +33,28 @@
         <div class="task">
             <span class="no-task-tip" v-if="!hasItem">还没有添加任何任务</span>
             <ul class="todo-list">
-                <li class="todo " v-bind:class="{completed:item.isChecked}" v-for="item in list">
+                <li class="todo " v-bind:class="{completed:item.isChecked,editing:editText==item}" v-for="item in list">
                     <div class="view">
                         <input type="checkbox" v-model="item.isChecked" class="toggle">
-                        <label for="">{{item.title}}</label>
+                        <label for="" @dblclick="editItem(item)">{{item.title}}</label>
                         <button class="destroy" @click="deletetodo(item)"></button>
                     </div>
+                    <!--<input-->
+                        <!--type="text"-->
+                        <!--class="edit"-->
+                        <!--v-model="editText.title"-->
+                        <!--@blur="editItem(todo)"-->
+                        <!--@dblclick="editItem(item)"-->
+                        <!--v-foucs="true"-->
+                    <!--/>-->
                     <input
-                        type="text"
-                        class="edit"
-                        value=""
+                            v-foucs="editText === item"
+                            class="edit"
+                            type="text"
+                            v-model = "editText.title"
+                            @blur="editItemed(item)"
+                            @keyup.13="editItemed(item)"
+                            @keyup.esc="giveUpItemed(item)"
                     />
                 </li>
             </ul>
