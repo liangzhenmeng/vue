@@ -22,39 +22,31 @@
                 v-on:keyup.13="addtodo"
         />
         <ul class="task-count" v-show="list.length">
-            <li>{{noIsChecked}}个任务未完成</li>
+            <li>{{noChecked}}个任务未完成</li>
             <li class="action">
-                <a href="#" class="active">所有任务</a>
-                <a href="#">未完成的任务</a>
-                <a href="#">完成的任务</a>
+                <a href="#all" class="active">所有任务{{list.length}}</a>
+                <a href="#unfinished" class="active">未完成的任务{{noChecked}}</a>
+                <a href="#finished" class="active">完成的任务{{isChecked}}</a>
             </li>
         </ul>
         <h3 class="big-title">任务列表：</h3>
         <div class="task">
-            <span class="no-task-tip" v-if="!hasItem">还没有添加任何任务</span>
+            <span class="no-task-tip">还没有添加任何任务</span>
             <ul class="todo-list">
-                <li class="todo " v-bind:class="{completed:item.isChecked,editing:editText==item}" v-for="item in list">
+                <li class="todo " v-bind:class="{completed:item.isChecked,editing:editText===item}" v-for="item in filteredList">
                     <div class="view">
                         <input type="checkbox" v-model="item.isChecked" class="toggle">
-                        <label for="" @dblclick="editItem(item)">{{item.title}}</label>
+                        <label @dblclick="editItem(item)">{{item.title}}</label>
                         <button class="destroy" @click="deletetodo(item)"></button>
                     </div>
-                    <!--<input-->
-                        <!--type="text"-->
-                        <!--class="edit"-->
-                        <!--v-model="editText.title"-->
-                        <!--@blur="editItem(todo)"-->
-                        <!--@dblclick="editItem(item)"-->
-                        <!--v-foucs="true"-->
-                    <!--/>-->
                     <input
-                            v-focus="editText == item"
                             class="edit"
                             type="text"
-                            v-model = "editText.title"
+                            v-focus="editText===item"
+                            v-model="editText.title"
                             @blur="editItemed(item)"
                             @keyup.13="editItemed(item)"
-                            @keyup.esc="giveUpItemed(item)"
+                            @keyup.27="giveUpItemed(item)"
                     />
                 </li>
             </ul>

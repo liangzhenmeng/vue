@@ -1,81 +1,89 @@
-var list = [
-    {
-        title:"吃饭打豆豆",
-        isChecked:false, //状态为false，为不选中  任务未完成
-        editing:false,
+var store = {
+    save(key,value){
+        localStorage.setItem(key,JSON.stringify(value));
     },
-    {
-        title:"妙味课堂",
-        isChecked:true,   //状态为true，为选中    任务完成
-        editing:false
+    fetch(key){
+        return JSON.parse(localStorage.getItem(key))||[];
     }
-];
+}
 
-new Vue({
+
+var list = store.fetch("miaov") ;
+
+var filter = {
+    all(){
+        return list;
+    },
+    unfinished(){
+        return list.filter(function(item){
+            return !item.isChecked;//未完成 false
+        });
+    },
+    finished(){
+        return list.filter(function(item){
+            return item.isChecked;  //完成 true
+        });
+    }
+
+}
+
+var vm = new Vue({
     el:".main",
     data:{
         list:list,
         text:"",
-        editText:{},//编辑
-        beforeTitle:"",//暂存
-
+        before:"",
+        editText:"",
+        visibility:"",
+    },
+    watch:{
+        list:{
+            handler(){
+                store.save("miaov",this.list);
+            },
+            deep:true,
+        }
     },
     computed:{
-        noIsChecked(){
+        noChecked(){
             return this.list.filter(function(item){
-                return !item.isChecked
+                return !item.isChecked;
             }).length;
         },
-        hasItem(){
-            if(this.list.length>0){
-                return true;
-            }else{
-                return false;
-            }
+        isChecked(){
+            return this.list.filter(function(item){
+                return item.isChecked;
+            }).length;
         },
-
-
+        filteredList(){
+            return filter[this.visibility]?filter[this.visibility](list):list;
+        }
     },
     methods:{
-        addtodo(ev){
+        addtodo(){
             if(this.text == ""){
-                return false;
+                return  false;
             }
             this.list.push({
                 title:this.text,
-                isChecked:false,
-                editing:false
+                isChecked:false,//未完成
             });
             this.text = "";
         },
         deletetodo(item){
-            // console.log(this.list);
-            // this.list.prototype;
-            var index = this.list.indexOf(item);
-            this.list.splice(index,1);
-
+            this.list.splice(this.list.indexOf(item),1);
         },
         editItem(item){
-            // this.focus();
-            item.editing = true;
-            this.beforeTitle = item.title;
             this.editText = item;
-
-        },
-        editItemed(todo){
-            console.log(todo);
-            if(this.editText.title != ""){
-                todo.title = this.editText.title;
-            }else{
-                todo.title = this.beforeTitle;
-            }
-            this.editText = "";
+            this.before = item.title;
         },
         giveUpItemed(item){
-            item.title = this.beforeTitle;
+            item.title = this.before;
+            this.editText = '';
+        },
+        editItemed(item){
             this.editText = "";
-        }
-
+        },
 
     },
     directives:{
@@ -86,6 +94,12 @@ new Vue({
                 }
             }
         }
-    }
 
-})
+    }
+});
+function watchHashChange(){
+    var hash = window.location.hash.slice(1);
+    vm.visibility = hash;
+};
+watchHashChange();
+window.addEventListener("hashchange",watchHashChange);
